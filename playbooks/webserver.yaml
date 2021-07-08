@@ -1,0 +1,9 @@
+---
+  - name: Webserver Configuration
+    hosts: "{{ app_host }}"
+    gather_facts: "{{ facts }}"
+    vars_files:
+      - ../variables/webserver_vars.yaml
+    tasks:
+      - name: Ping
+        ping:

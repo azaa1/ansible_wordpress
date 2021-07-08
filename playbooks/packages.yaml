@@ -1,0 +1,33 @@
+---
+  - name: Update and Install Packages
+    hosts: all
+    gather_facts: yes
+    become: yes
+    vars:
+      - packages: ['vim', 'tree', 'curl', 'wget', 'git']
+    tasks:
+      - name: Update DNF Packages, Install DNF Packages
+        block:
+          - name: Update DNF Packages
+            dnf:
+              state: latest
+              name: '*'
+          - name: Install DNF Packages
+            dnf:
+              state: latest
+              name: "{{ packages }}"
+        when: ansible_pkg_mgr == "dnf"
+
+      - name: Update APT Packages, Install APT Packages
+        block:
+          - name: Update APT Packages
+            apt:
+              state: latest
+              name: '*'
+              update_cache: yes
+          - name: Install APT Packages
+            apt:
+              state: latest
+              name: "{{ packages }}"
+              update_cache: yes
+        when: ansible_pkg_mgr == "apt"

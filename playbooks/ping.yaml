@@ -1,0 +1,9 @@
+---
+  - name: Ping 
+    hosts: all
+    gather_facts: "{{ facts }}"
+    vars_files:
+      - ../variables/ping_vars.yaml
+    tasks:
+      - name: Ping
+        ping:

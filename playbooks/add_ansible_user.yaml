@@ -1,0 +1,32 @@
+---
+  - name: Add ansible user
+    hosts: all
+    gather_facts: yes        # task1
+    tasks:
+      - name: Add ansible user, copy ssh-key to CentOS Servers
+        block: # block1
+          - name: Add ansible user  # task2
+            user:
+              name: ansible
+              uid: 2000
+              group: wheel
+          - name: Add SSH Key       # task3
+            authorized_key:
+              user: ansible
+              state: present
+              key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"  
+        when: ansible_distribution == "CentOS"
+      
+      - name: Add ansible user, copy ssh-key to Ubuntu Servers
+        block: # block2
+          - name: Add ansible user   # task4
+            user:
+              name: ansible
+              uid: 2000
+              group: sudo
+          - name: Add SSH Key        # task5
+            authorized_key:
+              user: ansible
+              state: present
+              key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"  
+        when: ansible_distribution == "Ubuntu"
