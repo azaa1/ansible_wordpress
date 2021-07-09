@@ -1,3 +1,6 @@
 # Play Variables
 app_host: app_server1
 facts: yes             # this value can be "yes" or "no"
+
+# Task "Install Packages" Variables
+webserver_packages: ["httpd", "php", "php-mysqlnd", "mysql"]
