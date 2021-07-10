@@ -2,8 +2,15 @@
   - name: Database Configuration
     hosts: "{{ database_host }}"
     gather_facts: "{{ facts }}"
+    become: yes
     vars_files:
       - ../variables/database_vars.yaml
     tasks:
       - name: Ping
         ping:
+      
+      - name: Install MariaDB
+        apt:
+          name: mariadb-server
+          state: latest
+          update_cache: yes

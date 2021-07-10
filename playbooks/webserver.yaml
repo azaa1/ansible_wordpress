@@ -9,6 +9,24 @@
       - name: Ping
         ping:
       
+      - name: Install EPEL Repo
+        dnf: 
+          name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+          state: installed
+          disable_gpg_check: yes
+      
+      - name: Install Remi Repos
+        dnf:
+          name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+          state: installed
+          disable_gpg_check: yes
+
+      - name: Reset dnf Remi 7.2
+        command: "dnf module reset php -y"
+        
+      - name: Enable Remi 8.0
+        command: "dnf module enable php:remi-8.0 -y"
+
       - name: Install Packages
         dnf:
           name: "{{ webserver_packages }}"
