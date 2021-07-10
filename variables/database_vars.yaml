@@ -1,3 +1,17 @@
 # Play Variables
 database_host: db_server1
 facts: yes                # this value can be "yes" or "no"
+
+# Task "Install MariaDB and python3-pymysql" variables
+database_packages: ["mariadb-server", "python3-pymysql"]
+
+# Task "Set Root Password "
+root_password: secret123password
+new_root_password: testpassword123
+
+# Task "Create WordPress Database"
+wp_db: wpdb
+
+# Task "Create WordPress User"
+wp_user: wpuser
+wpuser_password: verysecurepassword123

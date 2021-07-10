@@ -9,8 +9,41 @@
       - name: Ping
         ping:
       
-      - name: Install MariaDB
+      - name: Install MariaDB and python3-pymysql
         apt:
-          name: mariadb-server
+          name: "{{ database_packages }}"
           state: latest
           update_cache: yes
+      
+      - name: Start MariaDB
+        systemd:
+          name: mariadb
+          state: started
+      
+    #  - name: Set Root Password 
+    #    mysql_user:
+    #      login_unix_socket: /var/run/mysqld/mysqld.sock
+    #      login_user: root
+    #      login_password: "{{ root_password }}"
+    #      name: root
+    #      check_implicit_admin: yes
+    #      password: "{{ new_root_password }}"
+    #      host: localhost
+      
+      - name: Create WordPress Database
+        mysql_db:
+          login_unix_socket: /var/run/mysqld/mysqld.sock
+          login_user: root
+          login_password: "{{ new_root_password }}"
+          name: "{{ wp_db }}"
+          state: present
+
+      - name: Create WordPress User
+        mysql_user:
+          login_unix_socket: /var/run/mysqld/mysqld.sock
+          login_user: root
+          login_password: "{{ new_root_password }}"
+          name: "{{ wp_user }}"
+          password: "{{ wpuser_password }}"
+          priv: "{{ wp_db }}.*:ALL"
+          state: present
